@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(to bottom, #FFF0F5, #FFC0CB);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .countdown {
+            position: relative;
+            font-size: 120px;
+            font-weight: bold;
+            color: black;
+            text-shadow: -6px 6px 0px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 200px;
+            height: 200px;
+            animation: fadeInOut 1s ease-in-out;
+        }
+
+        @keyframes fadeInOut {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .profile-card {
+            width: 350px;
+            height: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 20px;
+            display: none;
+            /* Hide initially */
+        }
+
+        .profile-card img {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+        }
+
+        .profile-bio {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+        .profile-bio div {
+            width: 48%;
+        }
+
+        .free-text {
+            width: 100%;
+            margin-top: 20px;
+            word-wrap: break-word;
+            white-space: normal;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .profile-social-links {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .profile-social-links li {
+            display: inline;
+        }
+
+        .profile-social-links a {
+            text-decoration: none;
+            font-size: 20px;
+        }
+        #divBackToSearch {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="countdown" id="countdown">3</div>
+        <aside class="profile-card" id="profile-card">
+        <div id="divBackToSearch">
+            <header>
+                {% if result %}
+                    {% if result['profile_picture'] %}
+                        <img src="data:image/png;base64,{{ result['profile_picture'] }}" alt="รูปโปรไฟล์">
+                    {% endif %}
+                {% else %}
+                    <img src="https://media1.tenor.com/m/Y3cavvoDx-sAAAAC/the-simpsons-sad.gif" alt="No results">
+                {% endif %}
+                <h1>
+                    {% if result %}
+                        <p>{{ result['name'] }}</p>
+                    {% else %}
+                        <p>ไม่มีผลลัพธ์</p>
+                    {% endif %}
+                </h1>
+                <h2>
+                    {% if result %}
+                        <p>{{ result['profession'] }} อายุ: {{ result['age'] }}</p>
+                    {% endif %}
+                </h2>
+            </header>
+            <div class="profile-bio">
+                <div>
+                    {% if result %}
+                    <p>เพศ: {{ result['gender'] }}</p>
+                    <p>ส่วนสูง: {{ result['height'] }}</p>
+                    <p>สีผิว: {{ result['skin_color'] }}</p>
+                    <p>ชาติพันธุ์: {{ result['ethnicity'] }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if result %}
+                    <p>ลักษณะผม: {{ result['hair'] }}</p>
+                    <p>ลักษณะรูปร่าง: {{ result['body_type'] }}</p>
+                    <p>รูปแบบการใช้ชีวิต: {{ result['lifestyle'] }}</p>
+                    {% endif %}
+                </div>
+                <p style="text-align: center; width: 100%; margin-top: 20px; font-size: 18px; font-weight: bold;">
+                    {% if result %}
+                    <strong>ข้อความเพิ่มเติม:</strong> {{ result['free_text'] }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        </aside>
+    <script>
+        let count = 5;
+        const countdownEl = document.getElementById("countdown");
+        const profileCard = document.getElementById("profile-card");
+
+        function startCountdown() {
+            if (count >= 0) {
+                countdownEl.innerText = count > 0 ? count : "Boom!";
+                countdownEl.style.animation = "none";
+                void countdownEl.offsetWidth; // Restart animation hack
+                countdownEl.style.animation = "fadeInOut 1s ease-in-out";
+                setTimeout(() => {
+                    count--;
+                    startCountdown();
+                }, 1000);
+            } else {
+                countdownEl.style.display = "none";
+                profileCard.style.display = "block";
+            }
+        }
+        startCountdown();
+    </script>
+</body>
+
+</html>
+
+<script>
+        document.getElementById('divBackToSearch').addEventListener('click', function () {
+            window.location.href = '/search';
+        });
+    </script>

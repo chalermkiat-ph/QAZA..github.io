@@ -1,1 +1,0 @@
-# QAZA..github.io

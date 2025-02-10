@@ -1,0 +1,6 @@
+flask
+peewee
+uvicorn
+fastapi==0.88.0
+pydantic
+requests

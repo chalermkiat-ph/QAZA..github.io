@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <!-- ใช้ Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* พื้นหลังของหน้า */
+        body {
+            background: linear-gradient(to bottom, #FFF0F5, #FFC0CB); /* เกรเดี้ยนสีชมพูอ่อน */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            color: #333333; /* สีข้อความหลัก (ดำอ่อน) */
+        }
+        
+        /* Card */
+        .card {
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* เงาเบา */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+            max-width: 770px;
+            margin-left: auto;
+            margin-right: auto;
+            background: #FFFFFF; /* สีพื้นหลังการ์ดขาว */
+            color: #333333; /* สีข้อความใน Card */
+        }
+        
+        /* เอฟเฟกต์ Hover */
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* เงาเข้มขึ้น */
+        }
+        
+        /* Header ของ Card */
+        .card-header {
+            background: linear-gradient(to right, #FFC0CB, #FFB6C1); /* เกรเดี้ยนสีชมพูอ่อน */
+            color: #333333; /* สีข้อความใน Header (ดำอ่อน) */
+            font-weight: bold;
+            text-align: center;
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        /* Body ของ Card */
+        .card-body {
+            background: #FFF5F7; /* สีชมพูอ่อน */
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            font-size: 12px;
+        }
+        
+        /* ปุ่มลบ */
+        .btn-danger {
+            background: linear-gradient(to right, #FFC0CB, #FFB6C1); /* เกรเดี้ยนสีชมพูอ่อน */
+            border: none;
+            color: #333333; /* สีข้อความในปุ่มดำ */
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(to right, #FFB6C1, #FFC0CB);
+            transform: scale(1.05);
+        }
+        
+        /* ปุ่มล้างตัวกรอง */
+        .btn-secondary {
+            background: linear-gradient(to right, #FFFFFF, #F8F8F8); /* เกรเดี้ยนสีขาว */
+            border: none;
+            color: #333333; /* สีข้อความในปุ่มดำ */
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #F8F8F8, #FFFFFF);
+            transform: scale(1.05);
+        }
+        
+        /* Header */
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #FFB6C1; /* สีชมพูอ่อน */
+            text-align: center;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* เงาดำเบา */
+        }
+        
+        /* รูปภาพใน Card */
+        .card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 5px;
+            border: 2px solid #FFC0CB; /* เส้นขอบสีชมพูอ่อน */
+        }
+        
+        /* Layout ของ Card */
+        .d-flex {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* คอนเทนเนอร์ปรับขนาด */
+        .container {
+            max-width: 800px;
+            padding: 15px;
+        }
+        
+        /* Select และ Input */
+        select.form-control, input[type="text"].form-control, textarea.form-control {
+            background: #FFFFFF; /* สีพื้นหลังขาว */
+            border: 1px solid #FFC0CB; /* เส้นขอบสีชมพูอ่อน */
+            color: #333333; /* สีข้อความดำ */
+            padding: 8px;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        
+        /* ลดขนาดข้อความใน option */
+        select.form-control option {
+            font-size: 12px;
+        }
+        
+        /* Media Queries สำหรับหน้าจอเล็ก */
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 7px;
+            }
+        
+            .card-body {
+                padding: 10px;
+            }
+        
+            h1 {
+                font-size: 16px;
+            }
+        
+            .card img {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+
+        /* ปุ่มสีดำอ่อน */
+.btn-primary {
+    background: linear-gradient(to right, #666666, #4d4d4d); /* เกรเดี้ยนสีดำอ่อน */
+    border: none;
+    color: #ffffff; /* ข้อความสีขาว */
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(to right, #4d4d4d, #333333); /* สีเข้มขึ้นเมื่อ hover */
+    transform: scale(1.05); /* ขยายเล็กน้อยเมื่อ hover */
+}
+
+.btn-primary:active {
+    background: linear-gradient(to right, #333333, #1a1a1a); /* สีเข้มมากขึ้นเมื่อกด */
+    transform: scale(0.95); /* ย่อเล็กน้อยเมื่อกด */
+}
+        </style>
+        
+    
+    
+</head>
+<body>
+    
+
+<div class="container">
+
+    
+
+    <div class="row mt-4">
+        <!-- Card สำหรับ Insert Data -->
+        <div class="col-md-24">
+            <div class="card">
+                <div class="card-header">เพิ่มข้อมูลใหม่</div>
+             
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <!-- คอลัมน์ที่ 1 -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">ชื่อ</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="gender" class="form-label">เพศ</label>
+                                    <select class="form-control" name="gender" required>
+                                        <option value="" disabled selected>เลือก</option>
+                                        <option value="ชาย">ชาย</option>
+                                        <option value="หญิง">หญิง</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="age" class="form-label">อายุ</label>
+                                    <input type="text" class="form-control" id="age" name="age" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="height" class="form-label">ส่วนสูง</label>
+                                    <input type="text" class="form-control" id="height" name="height" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="skin_color" class="form-label">สีผิว</label>
+                                    <select class="form-control" name="skin_color" required>
+                                        <option value="" disabled selected >เลือก</option>
+                                        <option value="ขาว">ขาว</option>
+                                        <option value="แทน">แทน</option>
+                                        <option value="ผิวสี">ผิวสี</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <!-- คอลัมน์ที่ 2 -->
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ethnicity" class="form-label">เชื้อชาติ</label>
+                                    <select class="form-control" name="ethnicity" required>
+                                        <option value="" disabled selected>เลือก</option>
+                                        <option value="ไทย">ไทย</option>
+                                        <option value="เอเชีย">เอเชีย</option>
+                                        <option value="สายฝอ">สายฝอ</option>
+                                        <option value="สายแขก">สายแขก</option>
+                                        <option value="แอฟริกา">แอฟริกา</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="hair" class="form-label">ผม</label>
+                                    <select class="form-control" name="hair" required>
+                                        <option value="" disabled selected >เลือก</option>
+                                        <option value="สั้น">สั้น</option>
+                                        <option value="ยาว">ยาว</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="profession" class="form-label">อาชีพ</label>
+                                    <select class="form-control" name="profession" required>
+                                        <option value="" disabled selected>เลือก</option>
+                                        <option value="IT">IT</option>
+                                        <option value="แพทย์">แพทย์</option>
+                                        <option value="ธุรกิจส่วนตัว">ธุรกิจส่วนตัว</option>
+                                        <option value="อิสระ">อิสระ</option>
+                                        <option value="คนในเครื่องแบบ">คนในเครื่องแบบ</option>
+                                        <option value="ศิลปิน">ศิลปิน</option>
+                                        <option value="นักกีฬา">นักกีฬา</option>
+                                        <option value="ครู/อาจารย์">ครู/อาจารย์</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="body_type" class="form-label">รูปร่าง</label>
+                                    <select class="form-control" name="body_type" required>
+                                        <option value="" disabled selected>เลือก</option>
+                                        <option value="หุ่นหมีน่ากอด">หุ่นหมีน่ากอด</option>
+                                        <option value="หุ่นผอม">หุ่นผอม</option>
+                                        <option value="หุ่นมีชิกแพ็ค">หุ่นมีชิกแพ็ค</option>
+                                        <option value="หุ่นหมาเด็ก">หุ่นหมาเด็ก</option>
+                                        <option value="หุ่นกล้ามปู">หุ่นกล้ามปู</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="lifestyle" class="form-label">รูปแบบการใช้ชีวิต</label>
+                                    <select class="form-control" name="lifestyle" required>
+                                        <option value="" disabled selected >เลือก</option>
+                                        <option value="แอคทีฟ">แอคทีฟ</option>
+                                        <option value="ปกติ">ปกติ</option>
+                                        <option value="นั่งทำงาน">นั่งทำงาน</option>
+                                        <option value="ออกกำลังกายเป็นประจำ">ออกกำลังกายเป็นประจำ</option>
+                                        <option value="สายชิลล์">สายชิลล์</option>
+                                        <option value="ชอบท่องเที่ยว">ชอบท่องเที่ยว</option>
+                                        <option value="ทำงานหนัก">ทำงานหนัก</option>
+                                        <option value="สายปาร์ตี้">สายปาร์ตี้</option>
+                                        <option value="รักสงบ">รักสงบ</option>
+                                        <option value="สายติดบ้าน">สายติดบ้าน</option>
+                                        <option value="ชอบผจญภัย">ชอบผจญภัย</option>
+                                        <option value="สายเทคโนโลยี">สายเทคโนโลยี</option>
+                                        <option value="สายธรรมชาติ">สายธรรมชาติ</option>
+                                        <option value="สายดูแลสุขภาพ">สายดูแลสุขภาพ</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="mb-3">
+                                <label for="free_text" class="form-label">ข้อความเพิ่มเติม</label>
+                                <textarea class="form-control" name="free_text" rows="3" ></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="profile_picture" class="form-label">รูปโปรไฟล์</label>
+                                <input type="file" class="form-control" name="profile_picture" accept="image/*" required />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">เพิ่มข้อมูล</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+        <!-- Card สำหรับแสดงข้อมูล -->
+        <div class="col-md-24">
+           
+                <div class="card">
+                    <div class="card-header">ข้อมูลในระบบ  <a href="/search" style="float: right; color: black; font-size: 12px;">ไปที่หน้า Search</a></div>
+                    
+                    <div class="card-body" style="max-height: 1140px; overflow-y: auto;">
+                        <ul class="list-group">
+                            {% for item in items %}
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-start">
+                                        <!-- ฝั่งซ้าย: รูปภาพ -->
+                                        <div class="flex-shrink-0 text-center me-3" style="width: 200px;">
+                                            <!-- รูปภาพ -->
+                                            <div style="margin-bottom: 10px;">
+                                                {% if item['profile_picture'] %}
+                                                    <!-- <img src="{{ url_for('uploaded_file', filename=item['profile_picture']) }}" alt="รูปโปรไฟล์" 
+                                                         style="width: 150px; height: 150px; object-fit: cover;" class="img-fluid rounded"> -->
+
+                                                    <img src="data:image/png;base64,{{ item['profile_picture'] }}" alt="รูปโปรไฟล์" 
+                                                         style="width: 150px; height: 150px; object-fit: cover;" class="img-fluid rounded">
+                                                {% else %}
+                                                    <img src="https://via.placeholder.com/150" alt="ไม่มีรูปภาพ" 
+                                                         style="width: 150px; height: 150px; object-fit: cover;" class="img-fluid rounded">
+                                                {% endif %}
+                                            </div>
+                                            <!-- ปุ่มลบข้อมูล -->
+                                            <form method="POST" action="/delete/{{ item['id'] }}" 
+                                                  onsubmit="return confirm('คุณแน่ใจว่าต้องการลบข้อมูลนี้?');">
+                                                <button type="submit" class="btn btn-danger w-50" style="font-size: 10px;">ลบข้อมูล</button>
+                                            </form>
+                                        </div>
+                                        
+                                        
+                                        <!-- ข้อมูลหลัก (ชื่อ, อายุ, เพศ, ส่วนสูง) -->
+                                        <div class="flex-grow-1" style="flex-basis: 50%;">
+                                            <p><strong>ชื่อ:</strong> {{ item['name'] }}</p>
+                                            <p><strong>อายุ:</strong> {{ item['age'] }}</p>
+                                            <p><strong>เพศ:</strong> {{ item['gender'] }}</p>
+                                            <p><strong>ส่วนสูง:</strong> {{ item['height'] }}</p>
+                                            <p><strong>สีผิว:</strong> {{ item['skin_color'] }}</p>
+                                            <p><strong>เชื้อชาติ:</strong> {{ item['ethnicity'] }}</p>
+                                        </div>
+            
+                                        <!-- ข้อมูลเสริม (ผม, อาชีพ, รูปร่าง, รูปแบบการใช้ชีวิต, ข้อความเพิ่มเติม) -->
+                                        <div class="flex-grow-1" style="flex-basis: 50%;">
+                                            <p><strong>ผม:</strong> {{ item['hair'] }}</p>
+                                            <p><strong>อาชีพ:</strong> {{ item['profession'] }}</p>
+                                            <p><strong>รูปร่าง:</strong> {{ item['body_type'] }}</p>
+                                            <p><strong>รูปแบบการใช้ชีวิต:</strong> {{ item['lifestyle'] }}</p>
+                                            <p><strong>ข้อความเพิ่มเติม:</strong> {{ item['free_text'] }}</p>
+                                        </div>
+                                    </div>
+            
+                                
+                        
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        
+            
+            
+            
+            </div>
+            
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
